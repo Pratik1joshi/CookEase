@@ -44,8 +44,7 @@ public class LoginFrame extends JFrame implements ActionListener, FocusListener 
     private final char defaultPasswordChar;
     private final JButton loginButton;
     private final Dimension loginBoxesDimension = new Dimension(350, 25);
-    private final Color logoPanelColor = Color.cyan, loginPanelColor = Color.white,
-            presetTextFieldColor = Color.lightGray, inputBorderColor = Color.black;
+    private final Color presetTextFieldColor = Color.lightGray, inputBorderColor = Color.black;
         
     private final ImageIcon logoIcon = loadIcon("/images/icons/11608.jpg"),
             usernameIcon = loadIcon("/images/icons/username_icon.png"),
@@ -60,6 +59,7 @@ public class LoginFrame extends JFrame implements ActionListener, FocusListener 
     private final Color BUTTON_HOVER_COLOR = new Color(153, 92, 91);
     private final Color TEXT_COLOR = Color.WHITE;
     private final Color INPUT_BG_COLOR = new Color(245, 245, 245);
+    private final Color loginPanelColor = Color.WHITE;
 
     LoginFrame() throws SQLException {
         userDAO = new UserDAO();
@@ -122,18 +122,26 @@ public class LoginFrame extends JFrame implements ActionListener, FocusListener 
          * Username
          **************************************/
 
-        usernameLabel = new JLabel();
-        usernameLabel.setIcon(new ImageIcon((usernameIcon).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
-        inputsPanel.add(usernameLabel);
+        usernameLabel = new JLabel("Username");
+
+        JLabel usernameIconLabel = new JLabel();
+        usernameIconLabel.setIcon(new ImageIcon((usernameIcon).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
 
         usernameTextField = new JTextField(defaultUsernameText);
+        usernameTextField.setPreferredSize(new Dimension(200, 35));
         usernameTextField.setForeground(presetTextFieldColor);
-        usernameTextField.setPreferredSize(loginBoxesDimension);
         usernameTextField.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, inputBorderColor));
         usernameTextField.addFocusListener(this);
         usernameTextField.addKeyListener(keyAdapter);
         styleTextField(usernameTextField);
-        inputsPanel.add(usernameTextField);
+
+        JPanel usernamePanel = new JPanel();
+        usernamePanel.setLayout(new BoxLayout(usernamePanel, BoxLayout.Y_AXIS));
+        usernamePanel.setBackground(Color.WHITE); // match parent
+        usernamePanel.add(usernameLabel);         // shows "Username" above
+        usernamePanel.add(usernameIconLabel);
+        usernamePanel.add(usernameTextField);
+        inputsPanel.add(usernamePanel);
 
         /**************************************
          * Username
@@ -142,18 +150,26 @@ public class LoginFrame extends JFrame implements ActionListener, FocusListener 
          * Password
          **************************************/
 
-        passwordLabel = new JLabel();
-        passwordLabel.setIcon(new ImageIcon(passwordIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
-        inputsPanel.add(passwordLabel);
+        passwordLabel = new JLabel("Password");
+
+        JLabel passwordIconLabel = new JLabel();
+        passwordIconLabel.setIcon(new ImageIcon(passwordIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
 
         passwordPasswordField = new JPasswordField(defaultPasswordText);
+        passwordPasswordField.setPreferredSize(new Dimension(200, 35));
         passwordPasswordField.setForeground(presetTextFieldColor);
-        passwordPasswordField.setPreferredSize(loginBoxesDimension);
         passwordPasswordField.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, inputBorderColor));
         passwordPasswordField.addFocusListener(this);
         passwordPasswordField.addKeyListener(keyAdapter);
         styleTextField(passwordPasswordField);
-        inputsPanel.add(passwordPasswordField);
+
+        JPanel passwordPanel = new JPanel();
+        passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.Y_AXIS));
+        passwordPanel.setBackground(Color.WHITE);
+        passwordPanel.add(passwordLabel);         // shows "Password" above
+        passwordPanel.add(passwordIconLabel);
+        passwordPanel.add(passwordPasswordField);
+        inputsPanel.add(passwordPanel);
 
         /**************************************
          * Password
