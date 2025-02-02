@@ -69,11 +69,24 @@ public class UserDAO {
     }
 
     public boolean deleteUser(String username) throws SQLException {
+        // First delete from CartItems
+        query = "DELETE FROM CartItems WHERE cart_id IN (SELECT id FROM Cart WHERE user_id = ?)";
+        statement = connection.prepareStatement(query);
+        statement.setString(1, username);
+        statement.executeUpdate();
+
+        // Then delete from Cart
+        query = "DELETE FROM Cart WHERE user_id = ?";
+        statement = connection.prepareStatement(query);
+        statement.setString(1, username);
+        statement.executeUpdate();
+
+        // Finally delete the user
         query = "DELETE FROM User WHERE username = ?";
         statement = connection.prepareStatement(query);
         statement.setString(1, username);
         insertedLines = statement.executeUpdate();
-        return(insertedLines != 0);
+        return (insertedLines != 0);
     }
 
     public String[] readAllAttendants() throws SQLException{

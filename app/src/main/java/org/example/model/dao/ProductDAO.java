@@ -63,6 +63,13 @@ public class ProductDAO {
     }
 
     public boolean deleteProduct(int id) throws SQLException {
+        // First delete related cart items
+        query = "DELETE FROM CartItems WHERE product_id = ?";
+        statement = connection.prepareStatement(query);
+        statement.setInt(1, id);
+        statement.executeUpdate();
+
+        // Then delete the product
         query = "DELETE FROM Product WHERE id = ?";
         statement = connection.prepareStatement(query);
         statement.setInt(1, id);

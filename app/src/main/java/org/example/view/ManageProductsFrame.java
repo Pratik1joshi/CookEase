@@ -275,7 +275,8 @@ public class ManageProductsFrame extends JFrame implements ActionListener {
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
             if (option == 0) {
                 try {
-                    int selectedProduct = Integer.parseInt((String) productData[productDataTable.getSelectedRow()][0]);
+                    // Get ID directly from table model instead of productData array
+                    int selectedProduct = Integer.parseInt((String) tableModel.getValueAt(productDataTable.getSelectedRow(), 0));
                     if (productDAO.deleteProduct(selectedProduct)) {
                         productData = productDAO.readProductsTableData();
                         JOptionPane.showMessageDialog(null, "This product has been deleted successfully!",
@@ -285,7 +286,7 @@ public class ManageProductsFrame extends JFrame implements ActionListener {
                     }
                 } catch (SQLException sqlException) {
                     sqlException.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Someting went wrong!",
+                    JOptionPane.showMessageDialog(null, "Something went wrong!",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
